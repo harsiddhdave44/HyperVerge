@@ -1,0 +1,27 @@
+{
+    "endpoints": [
+        {
+            "url": "https://www.googlefail.co.in",
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "check_interval": 60,
+            "retries": 3,
+            "resend_notification_interval": 3,
+            "notify_email": "dave.harsiddh.44@gmail.com"
+        },
+        {
+            "url": "https://www.youtubefail.com",
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer <TOKEN>"
+            },
+            "check_interval": 60,
+            "retries": 3,
+            "resend_notification_interval": 3,
+            "notify_email": "dave.harsiddh.44@gmail.com"
+        }
+    ]
+}

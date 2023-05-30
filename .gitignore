@@ -1,0 +1,8 @@
+/Part1/instance_userdata.txt
+/Part1/.terraform
+/Part1/.terraform.lock.hcl
+/Part1/server.js
+/Part1/terraform.tfstate
+/Part1/terraform.tfstate.backup
+/Part2/venv
+/Part2/healthcheck.log
