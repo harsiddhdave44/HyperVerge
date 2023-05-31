@@ -46,6 +46,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 }
 
+# Defining the ingress ports for SSH(22), http(80) and for the js script(81)
 resource "aws_security_group" "elb" {
   name        = "elb"
   description = "Allow inbound traffic"
@@ -82,6 +83,13 @@ resource "aws_lb" "web" {
 
 }
 
+resource "aws_lb_target_group" "front_end" {
+  name     = "front-end"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main.id
+}
+
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.web.arn
   port              = "80"
@@ -93,19 +101,17 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
-resource "aws_lb_target_group" "front_end" {
-  name     = "front-end"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
-}
 
 resource "aws_launch_configuration" "web" {
   name          = "web-lc"
   image_id      = var.ami
   instance_type = var.instance_type
-  key_name      = "key_par_tf"
+  key_name      = "key_par_tf" # This must be created manually first
 
+  # This user data install nodejs, npm and pm2. 
+  # Then it creates a node script which prints the Instance ID, IP Address and MAC(on port 81) 
+  # Another server acts as a health check(on port 80) 
+  # Kept two separate ports for simplicity, but could be done using single port and multiple routes
   user_data                   = <<EOF
 #!/bin/bash
 sudo apt update
